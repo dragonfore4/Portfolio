@@ -1,0 +1,37 @@
+import React from 'react'
+import { DefaultButton, SparkleButton } from '../ฺButton/Button'
+import { HiOutlineViewGrid } from 'react-icons/hi'
+import { FaCloudDownloadAlt } from "react-icons/fa";
+
+
+const AboutMeSection = () => {
+    return (
+        <section id="About me" className=" mt-20 mb-20  flex flex-col justify-between gap-8 bg-slate-00" style={
+            { minHeight: "calc(85vh - 48px - 80px)" }
+        }>
+            <SparkleButton name="Let's Start!"/>
+            <p className='text-2xl lg:text-4xl font-bold text-gradient'>I’m Sirasith Ruengsilapavilai,<br /> <span className='text-md lg:text-2xl'> interested in Software Development and Web Development</span></p>
+
+            <p className="text-mediumGrey">
+                Hi, I'm Sirasith Ruengsilapavilai, but you can call me
+                <span className="text-lightGrey "> Game</span>.
+                I'm a <span className="text-lightGrey ">third-year Computer Science</span> student at
+                <span className="text-lightGrey "> KMITL</span>,
+                building a strong foundation in <span className="text-lightGrey">software development </span>
+                and problem-solving. I'm especially passionate about
+                <span className="text-lightGrey"> web development </span>
+                and always eager to explore new technologies.
+            </p>
+
+            <div className='flex gap-8'>
+
+                <DefaultButton name='My works' Icon={<HiOutlineViewGrid />} goesTo='Projects' />
+
+                <a href="/pictures/boys.jpg" download={"Sirasith_file"}>
+                    <DefaultButton name='Download my CV' Icon={<FaCloudDownloadAlt />} />
+                </a>
+            </div>
+        </section>)
+}
+
+export default AboutMeSection

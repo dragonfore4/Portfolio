@@ -1,21 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+    @apply text-white;
+    scroll-behavior: smooth;
   }
+
+  @layer components {
+    .text-gradient {
+        background: linear-gradient(to right, #FFC0CB, #9370DB); /* Blue 300 to Pink 300 */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        line-height: 1.25; /* Equivalent to leading-tight */
+    }
+  }
+
+  /* Custom Scrollbar for WebKit Browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 10px; /*Width of the scrollbar*/
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+
+/* Track (the background of the scrollbar) */
+::-webkit-scrollbar-track {
+    background: #1a1a1a; /* Dark background */
+    /* border-radius: 5px; */
+}
+
+/* Handle (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+     /* background: rgb(211,19,217); */
+    border-radius: 5px;
+    /* background: linear-gradient(211deg, rgba(211,19,217,1) 0%, rgba(107,120,222,1) 35%, rgba(0,212,255,1) 100%);  */
+    background: linear-gradient(211deg, #FFC0CB, #9370DB); 
+
+    /* #93c5fd, #f9a8d4 */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+     background: #888; /*Lighter gray on hover  */
+     background: rgb(211,19,217);
+ background: linear-gradient(211deg, rgba(211,19,217,1) 0%, rgba(107,120,222,1) 35%, rgba(0,212,255,1) 100%); 
 }
