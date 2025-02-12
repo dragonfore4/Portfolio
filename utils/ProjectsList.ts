@@ -23,11 +23,6 @@ export const projectLists = [
         tools: ["MySQL", "Next.js", "Express.js"]
 
     },
-    {
-        name: "Carbon Credit Marketplace",
-        description: "Developed a marketplace connecting carbon credit sellers with buyers, enabling transparent and efficient transactions.",
-        tools: ["MySQL", "Next.js", "Express.js"]
-
-    },
+   
 ]
 

@@ -10,8 +10,9 @@ const Card = () => {
     return (
         <div className='flex flex-col justify-between h-full gap-4 bg-red-00'>
 
-            <div className='h-2/3  relative'>
+            <div className='h-[300px] lg:h-2/3  relative'>
                 <Image src={"/pictures/boys.jpg"} fill alt='' className='object-cover rounded-lg' />
+                hello
             </div>
             <div className='flex flex-col  gap-4'>
                 <InformationButton icon={<IoPhonePortraitOutline className='text-white w-4 h-4 my-2' />} title={'Phone'} information={'+66 954849417'} />

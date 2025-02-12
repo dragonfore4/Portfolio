@@ -52,7 +52,7 @@ const ExperienceSection = () => {
                         )}
 
                         {/* ICON */}
-                        <div className="translate-x-20 mb-2 md:translate-x-0 md:mb-0 md:flex items-center justify-center w-14 h-14 p-2  bg-gray-800 rounded-full shadow-md mt-6">
+                        <div className="translate-x-40 mb-2 md:translate-x-0 md:mb-0 md:flex items-center justify-center w-14 h-14 p-2  bg-gray-800 rounded-full shadow-md mt-6">
                             {exp.icon}
                         </div>
 
