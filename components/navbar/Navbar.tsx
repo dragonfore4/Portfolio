@@ -112,7 +112,7 @@ const Navbar = () => {
             </div>
 
             {/* Right-aligned "Let's Talk" button */}
-            <button className="px-6 py-3 right-20 rounded-3xl font-semibold text-black bg-gradient-to-r from-pink-300 to-purple-300 hover:opacity-80 transition-all">
+            <button className="px-6 py-3 right-20 rounded-3xl font-semibold text-black bg-gradient-to-r from-pink-300 to-purple-300 hover:opacity-80 transition-all duration-300">
                 Lets Talk
             </button>
         </div>
