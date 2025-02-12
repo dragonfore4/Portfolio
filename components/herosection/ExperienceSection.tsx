@@ -68,7 +68,7 @@ const ExperienceSection = () => {
                             {/* Description */}
                             <ul className="list-disc pl-5 flex flex-col gap-2 text-white">
                                 {exp.description.map((desc, i) => (
-                                    <li key={i} className="text-[10px] md:text-base">{desc}</li>
+                                    <li key={i} className=" md:text-md">{desc}</li>
                                 ))}
                             </ul>
 
@@ -76,10 +76,10 @@ const ExperienceSection = () => {
                             {exp.missions && (
                                 <div className="mt-4">
                                     <h4 className="text-xs  md:text-lg font-semibold text-gray-300">Missions:</h4>
-                                    <ul className="text-[10px] md:text-base list-disc pl-5 text-gray-400 space-y-1">
+                                    <ul className=" list-disc pl-5 text-gray-400 space-y-1">
                                         {exp.missions.map((mission, i) => (
                                             <li key={i} className="flex items-center gap-2">
-                                                <HiOutlineLightBulb className="text-yellow-300 w-[20px]" /> <span className="text-[10px] md:text-base">{mission}</span>
+                                                <HiOutlineLightBulb className="text-yellow-300 w-[20px]" /> <span className="text-md ">{mission}</span>
                                             </li>
                                         ))}
                                     </ul>
