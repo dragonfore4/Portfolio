@@ -1,7 +1,6 @@
 import React from "react";
-import { SparkleButton } from "../ฺButton/Button";
-import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs, FaJava, FaDocker } from "react-icons/fa";
-import { SiTailwindcss, SiMysql, SiMongodb, SiGoland, SiBootstrap, SiSvelte, SiNextdotjs, SiPhp, SiExpress, SiTypescript } from "react-icons/si";
+import { FaHtml5, FaCss3Alt, FaJs, FaReact , FaJava, FaDocker } from "react-icons/fa";
+import { SiTailwindcss, SiMysql, SiMongodb,  SiSvelte, SiExpress, SiTypescript } from "react-icons/si";
 import { FaGolang } from "react-icons/fa6";
 import { RiNextjsFill, RiSupabaseFill } from "react-icons/ri";
 
