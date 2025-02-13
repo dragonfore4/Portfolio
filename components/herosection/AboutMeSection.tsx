@@ -27,7 +27,7 @@ const AboutMeSection = () => {
 
                 <DefaultButton name='My works' Icon={<HiOutlineViewGrid />} goesTo='Projects' />
 
-                <a href="/pictures/boys.jpg" download={"Sirasith_file"}>
+                <a href="/Sirasith_resume.pdf" download={"Sirasith_Resume"}>
                     <DefaultButton name='Download my CV' Icon={<FaCloudDownloadAlt />} />
                 </a>
             </div>

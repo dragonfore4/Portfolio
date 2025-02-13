@@ -45,14 +45,14 @@ const ExperienceSection = () => {
             {/* TIMELINE CONTAINER */}
             <div className="relative md:ml-10 flex flex-col gap-8">
                 {experiences.map((exp, idx) => (
-                    <div key={exp.id} className="md:relative md:flex items-start gap-6">
+                    <div key={exp.id} className="flex flex-col md:flex-row md:relative justify-centers items-center md:items-start gap-6 ">
                         {/* Timeline Line - Stops at last item */}
                         {idx !== experiences.length - 1 && (
                             <div className="hidden md:block absolute left-6 top-12 h-full w-[2px] bg-gray-700 mt-6"></div>
                         )}
 
                         {/* ICON */}
-                        <div className="translate-x-40 mb-2 md:translate-x-0 md:mb-0 md:flex items-center justify-center w-14 h-14 p-2  bg-gray-800 rounded-full shadow-md mt-6">
+                        <div className="mb-2 md:mb-0 flex items-center justify-center w-14 h-14 p-2  bg-gray-800 rounded-full shadow-md mt-6">
                             {exp.icon}
                         </div>
 
