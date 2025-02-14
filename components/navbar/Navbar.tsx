@@ -33,21 +33,21 @@ const Navbar = () => {
                     const elementPosition = section.getBoundingClientRect().top + window.scrollY;
                     // console.log(`📌 Section: ${name}`);
                     // console.log(`Top: ${section.getBoundingClientRect().top}, ScrollY: ${window.scrollY}, Total: ${elementPosition}`);
-    
+
                     const windowScrollY = window.scrollY + 160 + 50.5; // ค่า offset ที่คำนวณ
                     // console.log(`windowScrollY = ${windowScrollY}, elementPosition = ${elementPosition}`);
-    
+
                     if (windowScrollY >= elementPosition) {
                         setActiveButton(name);
                     }
                 }
             });
         };
-    
+
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
-    
+
     return (
         <div className="hidden lg:flex justify-between sticky top-20 z-50">
             {/* Left-aligned navigation buttons */}
@@ -62,10 +62,12 @@ const Navbar = () => {
                 ))}
             </div>
 
+
             {/* Right-aligned "Let's Talk" button */}
-            <button className="px-6 py-3 right-20 rounded-3xl font-semibold text-black bg-gradient-to-r from-pink-300 to-purple-300 hover:opacity-80 transition-all duration-300">
-                Lets Talk
-            </button>
+
+                <a href='mailto:sirasith.ru@gmail.com' className="px-6 py-3 right-20 rounded-3xl font-semibold text-black bg-gradient-to-r from-pink-300 to-purple-300 hover:opacity-80 transition-all duration-300">
+                    Lets Talk
+                </a>
         </div>
     );
 };

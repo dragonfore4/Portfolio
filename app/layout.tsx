@@ -23,7 +23,7 @@ const ubuntu = Ubuntu_Sans_Mono({
 
 export const metadata: Metadata = {
     title: "Sirasith ",
-    description: "This is my Portfolio",
+    description: "Sirasith's Portfolio",
 };
 
 

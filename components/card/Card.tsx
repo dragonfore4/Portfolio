@@ -5,6 +5,7 @@ import { IoPhonePortraitOutline } from 'react-icons/io5'
 import { InformationButton } from '../ฺButton/Button'
 import { MdOutlineMailOutline } from 'react-icons/md'
 import { FaLocationDot } from 'react-icons/fa6'
+import Link from 'next/link'
 
 const Card = () => {
     return (
@@ -21,9 +22,9 @@ const Card = () => {
 
             </div>
             <div className='flex  justify-between items-center gap-4'>
-                <FaGithub className='w-6 h-6' />
-                <FaGithub className='w-6 h-6' />
-                <FaGithub className='w-6 h-6' />
+                <a href={'https://www.github.com/dragonfore4'} target='_blank' className='transition-all duration-300 hover:-translate-y-2 hover:scale-110'>
+                    <FaGithub className='w-6 h-6' />
+                </a>
 
             </div>
         </div>
