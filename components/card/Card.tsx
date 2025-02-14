@@ -5,7 +5,6 @@ import { IoPhonePortraitOutline } from 'react-icons/io5'
 import { InformationButton } from '../ฺButton/Button'
 import { MdOutlineMailOutline } from 'react-icons/md'
 import { FaLocationDot } from 'react-icons/fa6'
-import Link from 'next/link'
 
 const Card = () => {
     return (
