@@ -7,23 +7,44 @@ import "./globals.css";
 const geistSans = Geist({
     variable: "--font-geist-sans",
     subsets: ["latin"],
+    display: "swap",
 });
 
 const geistMono = Geist_Mono({
     variable: "--font-geist-mono",
     subsets: ["latin"],
+    display: "swap",
 });
-
-
 
 const ubuntu = Ubuntu_Sans_Mono({
     variable: "--font-ubuntu",
-    subsets: ["latin"]
-})
+    subsets: ["latin"],
+    display: "swap",
+});
 
 export const metadata: Metadata = {
-    title: "Sirasith ",
-    description: "Sirasith's Portfolio",
+    title: "Sirasith's Portfolio | Web Development & UI/UX",
+    description: "Explore Sirasith's portfolio, showcasing projects in web development, UI/UX, and programming expertise.",
+    openGraph: {
+        title: "Sirasith's Portfolio | Web Development & UI/UX",
+        description: "Explore Sirasith's portfolio, showcasing projects in web development, UI/UX, and programming expertise.",
+        url: "https://sirasith.net/",
+        images: [
+            {
+                url: "https://sirasith.net/preview.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Sirasith's Portfolio Preview"
+            }
+        ],
+        type: "website"
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Sirasith's Portfolio | Web Development & UI/UX",
+        description: "Explore Sirasith's portfolio, showcasing projects in web development, UI/UX, and programming expertise.",
+        images: ["https://sirasith.net/preview.jpg"]
+    }
 };
 
 

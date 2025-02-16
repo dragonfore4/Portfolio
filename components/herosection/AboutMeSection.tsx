@@ -1,5 +1,5 @@
 import React from 'react'
-import { DefaultButton, SparkleButton } from '../ฺButton/Button'
+import { DefaultButton, SparkleButton } from '../Button/Button'
 import { HiOutlineViewGrid } from 'react-icons/hi'
 import { FaCloudDownloadAlt } from "react-icons/fa";
 

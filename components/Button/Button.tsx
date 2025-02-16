@@ -16,41 +16,39 @@ export const DefaultButton = ({ name, Icon, goesTo }: { name: string; Icon?: JSX
     }
 
     return (
-        <div
+        <button
             className={`flex justify-center items-center gap-1 cursor-pointer border rounded-3xl px-5 py-3 w-max text-white font-thin text-xs text-center transition-transform  duration-300 hover:-translate-y-2  border-gunmetalGray hover:border-lightGrey`}
             onClick={() => goesTo && goesToSection(goesTo)}
         >
             {name}
             {Icon && Icon} {/* Render the icon only if it exists */}
-        </div>
+        </button>
     )
 }
 
 export const SparkleButton = ({ name }: { name: string }) => {
-
-
-
     return (
-        <div
-            className={`flex justify-center items-center gap-1  border border-[#373737] rounded-3xl px-5 py-3 w-max text-white font-thin text-xs text-center  `}
+        <button
+            className="flex justify-center items-center gap-1 border border-[#373737] rounded-3xl px-5 py-3 w-max text-white font-thin text-xs text-center"
+            aria-label={name}
         >
-
             <HiOutlineSparkles size={14} />
             {name}
-        </div>
-    )
-}
+        </button>
+    );
+};
 
 export const ToolButton = ({ name }: { name: string }) => {
     return (
-        <p
-            className={`border-transparent bg-[#2e2e2e] h-fit rounded-3xl px-4 py-1 w-max text-[#c7c5c5] font-bold text-xs text-center  `}
+        <button
+            className="border-transparent bg-[#2e2e2e] h-fit rounded-3xl px-4 py-1 w-max text-[#c7c5c5] font-bold text-xs text-center"
+            aria-label={name}
         >
             {name}
+        </button>
+    );
+};
 
-        </p>
-    )
-}
 
 
 export const InformationButton = ({ icon, title, information }: { icon: JSX.Element, title: string, information: string }) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { SparkleButton } from '../ฺButton/Button'
+import { SparkleButton } from '../Button/Button'
 import ProjectList from '../card/ProjectList'
 
 const ProjectSection = () => {
