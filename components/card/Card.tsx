@@ -13,7 +13,6 @@ const Card = () => {
 
             <div className='h-[300px] lg:h-2/3  relative'>
             <Image src={"/pictures/boys.jpg"} fill alt="Profile picture of Sirasith" className="object-cover rounded-lg" />
-            hello
             </div>
             <div className='flex flex-col  gap-4'>
                 <InformationButton icon={<IoPhonePortraitOutline className='text-white w-4 h-4 my-2' />} title={'Phone'} information={CONTACT_INFO.phone} />
