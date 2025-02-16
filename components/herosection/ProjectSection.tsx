@@ -4,7 +4,7 @@ import ProjectList from '../card/ProjectList'
 
 const ProjectSection = () => {
     return (
-        <section id="Projects" className="min-h-[85vh] mb-20  flex flex-col gap-12 bg-green-00" style={
+        <section id="Projects" className="min-h-[85vh] mb-20  flex flex-col justify-between gap-12 bg-green-00" style={
             {
                 minHeight: "calc(85vh - 48px - 80px)",
 
