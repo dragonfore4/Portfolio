@@ -29,7 +29,7 @@ export const DefaultButton = ({ name, Icon, goesTo }: { name: string; Icon?: JSX
 export const SparkleButton = ({ name }: { name: string }) => {
     return (
         <button
-            className="flex justify-center items-center gap-1 border border-[#373737] rounded-3xl px-5 py-3 w-max text-white font-thin text-xs text-center"
+            className="flex justify-center items-center gap-1 border border-[#373737] rounded-3xl px-5 py-3 w-max text-white font-thin text-xs text-center cursor-default"
             aria-label={name}
         >
             <HiOutlineSparkles size={14} />
@@ -41,7 +41,7 @@ export const SparkleButton = ({ name }: { name: string }) => {
 export const ToolButton = ({ name }: { name: string }) => {
     return (
         <button
-            className="border-transparent bg-[#2e2e2e] h-fit rounded-3xl px-4 py-1 w-max text-[#c7c5c5] font-bold text-xs text-center"
+            className="border-transparent bg-[#2e2e2e] h-fit rounded-3xl px-4 py-1 w-max text-[#c7c5c5] font-bold text-xs text-center cursor-default "
             aria-label={name}
         >
             {name}

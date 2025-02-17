@@ -11,10 +11,10 @@ const ProjectCard = ({
     tools: string[];
 }) => {
     return (
-<div className="rounded-2xl bg-[#161616] border border-[#2E2E2E] shadow-lg p-6 flex flex-col justify-between gap-5 transition-all duration-300 
+        <div className="rounded-2xl bg-[#161616] border border-[#2E2E2E] shadow-lg p-6 flex flex-col justify-between gap-5 transition-all duration-300 
     hover:-translate-y-2 hover:border-opacity-75 hover:shadow-[0px_0px_12px_rgba(255,255,255,0.1)] 
     sm:w-[100%] lg:w-full will-change-transform">
-            
+
             {/* Project Title */}
             <h3 className="text-lg font-semibold text-white lg:text-2xl transition-colors duration-300 group-hover:text-lightGrey">
                 {name}
