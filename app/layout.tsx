@@ -23,11 +23,11 @@ const ubuntu = Ubuntu_Sans_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Sirasith's Portfolio | Web Development & UI/UX",
-    description: "Explore Sirasith's portfolio, showcasing projects in web development, UI/UX, and programming expertise.",
+    title: "Sirasith's Portfolio | Web Development",
+    description: "Explore Sirasith's portfolio, showcasing projects in web development and programming expertise.",
     openGraph: {
-        title: "Sirasith's Portfolio | Web Development & UI/UX",
-        description: "Explore Sirasith's portfolio, showcasing projects in web development, UI/UX, and programming expertise.",
+        title: "Sirasith's Portfolio | Web Development",
+        description: "Explore Sirasith's portfolio, showcasing projects in web development and programming expertise.",
         url: "https://sirasith.net/",
         images: [
             {
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Sirasith's Portfolio | Web Development & UI/UX",
-        description: "Explore Sirasith's portfolio, showcasing projects in web development, UI/UX, and programming expertise.",
+        title: "Sirasith's Portfolio | Web Development",
+        description: "Explore Sirasith's portfolio, showcasing projects in web development and programming expertise.",
         images: ["https://sirasith.net/preview.jpg"]
     }
 };
@@ -64,8 +64,8 @@ export default function RootLayout({
                 <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
 
                 <meta name="robots" content="index, follow" />
-                <meta name="description" content="Explore Sirasith's portfolio, showcasing projects in web development, UI/UX, and programming expertise." />
-                <meta name="keywords" content="Sirasith, Portfolio, Web Development, UI/UX, Programming" />
+                <meta name="description" content="Explore Sirasith's portfolio, showcasing projects in web development and programming expertise." />
+                <meta name="keywords" content="Sirasith, Portfolio, Web Development Programming" />
                 <meta name="author" content="Sirasith" />
 
             </head>
