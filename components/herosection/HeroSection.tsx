@@ -7,10 +7,10 @@ import SkillSection from './SkillSection'
 const HeroSection = () => {
   return (
     <div>
-        <AboutMeSection/>
-        <ProjectSection/>
-        <ExperienceSection/>
-        <SkillSection/>
+      <AboutMeSection />
+      <ProjectSection />
+      <ExperienceSection />
+      <SkillSection />
     </div>
   )
 }
