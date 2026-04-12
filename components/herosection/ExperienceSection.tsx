@@ -52,7 +52,15 @@ const experiences = [
     id: 3,
     title: "SAP Master Trainer – ASEAN DSE 2024",
     date: "Feb – Nov 2024",
-    icon: <FaChalkboardTeacher className="text-yellow-400 text-4xl" />,
+    icon: (
+      <Image
+        src="https://avatars.githubusercontent.com/u/2531208?s=200&v=4"
+        alt="SAP"
+        className="h-full w-full object-cover p-0" // ปรับรูปภาพให้เต็มวงกลม
+        width={100}
+        height={100}
+      />
+    ),
     description: [
       "Selected as a Master Trainer for ASEAN Data Science Explorers (ASEAN DSE) Enablement Session 2024, empowering underserved youth across ASEAN.",
       "Conducted training on SAP Analytics Cloud (SAC) for COVID-19 data analysis, teaching participants how to apply data science techniques.",
@@ -68,7 +76,15 @@ const experiences = [
     title: "Krungsri UniVerse x KMITL Hackathon",
     subtitle: "Innovating for a Sustainable Future",
     date: "July 2023",
-    icon: <FaRecycle className="text-green-400 text-4xl" />,
+    icon: (
+      <Image
+        src="https://raw.githubusercontent.com/casperstack/thai-banks-logo/master/icons/BAY.png"
+        alt="Krungsri"
+        className="h-full w-full object-cover p-0" // ปรับรูปภาพให้เต็มวงกลม
+        width={100}
+        height={100}
+      />
+    ),
     description: [
       "Developed an AI Smart Trash Bin for waste segregation in communities, integrating a Line Chatbot for real-time monitoring and reward-based participation.",
       "Designed a prototype in Figma, featuring key interfaces for user registration, waste detection, and reward redemption, optimizing user engagement and system usability.",
