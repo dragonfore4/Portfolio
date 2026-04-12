@@ -18,7 +18,7 @@ export const DefaultButton = ({ name, Icon, goesTo }: { name: string; Icon?: JSX
 
   return (
     <button
-      className={`flex justify-center items-center gap-1 cursor-pointer border rounded-3xl px-5 py-3 w-max text-white font-thin text-xs text-center transition-transform  duration-300 hover:-translate-y-2  border-gunmetalGray hover:border-lightGrey`}
+      className={`flex justify-center items-center gap-1 cursor-pointer border rounded-3xl px-5 py-3 w-max text-white font-thin text-xs text-center transition-transform  duration-300 hover:-translate-y-2  border-gunmetal-gray hover:border-light-grey`}
       onClick={() => goesTo && goesToSection(goesTo)}
     >
       {name}
@@ -56,13 +56,13 @@ export const InformationButton = ({ icon, title, information }: { icon: JSX.Elem
   return (
     <div className='flex gap-2'>
       {/* picture */}
-      <div className='bg-gunmetalGray px-2 py-1  rounded-xl flex justify-center items-center'>
+      <div className='bg-gunmetal-gray px-2 py-1  rounded-xl flex justify-center items-center'>
         {icon}
       </div>
       {/* INFORMATION */}
       <div className='flex flex-col justify-between'>
         {/* Title */}
-        <span className='text-xs text-mediumGrey uppercase space tracking-widest'>{title}</span>
+        <span className='text-xs text-medium-grey uppercase space tracking-widest'>{title}</span>
         <span className='text-sm'>{information}</span>
       </div>
 

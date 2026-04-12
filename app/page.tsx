@@ -7,7 +7,7 @@ export default function Home() {
 
     <div className="bg-[#111111] flex flex-col lg:flex-row min-h-screen w-full  gap-10 px-4 md:px-20 relative pt-20">
       {/* LEFT SIDE */}
-      <div className="w-full lg:block lg:w-[450px] lg:h-[85vh] lg:sticky top-20 bottom-20  bg-[#161616] rounded-3xl border border-[#373737] p-8">
+      <div className="w-full lg:block lg:w-112.5 lg:h-[85vh] lg:sticky top-20 bottom-20  bg-dark-charcoal rounded-3xl border border-[#373737] p-8">
         <Card />
       </div>
       {/* RIGHT SIDE */}

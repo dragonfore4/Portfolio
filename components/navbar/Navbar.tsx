@@ -65,7 +65,7 @@ const Navbar = () => {
 
             {/* Right-aligned "Let's Talk" button */}
 
-                <a href='mailto:sirasith.ru@gmail.com' className="px-6 py-3 right-20 rounded-3xl font-semibold text-black bg-gradient-to-r from-pink-300 to-purple-300 hover:opacity-80 transition-all duration-300">
+                <a href='mailto:sirasith.ru@gmail.com' className="px-6 py-3 right-20 rounded-3xl font-semibold text-black bg-linear-to-r from-pink-300 to-purple-300 hover:opacity-80 transition-all duration-300">
                     Lets Talk
                 </a>
         </div>

@@ -100,7 +100,7 @@ const ExperienceSection = () => {
             </div>
 
             {/* Experience Card */}
-            <div className="bg-[#161616] border-gunmetalGray border p-6 rounded-xl shadow-md transition-all duration-300 hover:-translate-y-1 w-full hover:border-gray-500">
+            <div className="bg-[#161616] border-gunmetal-gray border p-6 rounded-xl shadow-md transition-all duration-300 hover:-translate-y-1 w-full hover:border-gray-500">
               <h3 className="text-md md:text-2xl font-bold text-white">{exp.title}</h3>
               {exp.subtitle && (
                 <h4 className="text-xs md:text-lg font-semibold text-gray-400 mt-1">{exp.subtitle}</h4>
@@ -123,7 +123,7 @@ const ExperienceSection = () => {
                   <ul className="space-y-3">
                     {exp.missions.map((mission, i) => (
                       <li key={i} className="flex items-start gap-3">
-                        <HiOutlineLightBulb className="text-yellow-400 w-5 h-5 mt-0.5 flex-shrink-0" />
+                        <HiOutlineLightBulb className="text-yellow-400 w-5 h-5 mt-0.5 shrink-0" />
                         <span className="text-sm md:text-base text-gray-400 italic">{mission}</span>
                       </li>
                     ))}

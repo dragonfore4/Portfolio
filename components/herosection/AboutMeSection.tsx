@@ -12,14 +12,14 @@ const AboutMeSection = () => {
       <SparkleButton name="Let's Start!" />
       <p className='text-2xl lg:text-4xl font-bold text-gradient'>I’m Sirasith Ruengsilapavilai,<br /> <span className='text-md lg:text-2xl'> interested in Software Development and Web Development</span></p>
 
-      <p className="text-mediumGrey">
+      <p className="text-medium-grey">
         Hi, I&apos;m Sirasith Ruengsilapavilai, but you can call me
-        <span className="text-lightGrey "> Game</span>.
-        I&apos;m a <span className="text-lightGrey ">third-year Computer Science</span> student at
-        <span className="text-lightGrey "> KMITL</span>,
-        building a strong foundation in <span className="text-lightGrey">software development </span>
+        <span className="text-light-grey "> Game</span>.
+        I&apos;m a <span className="text-light-grey ">third-year Computer Science</span> student at
+        <span className="text-light-grey "> KMITL</span>,
+        building a strong foundation in <span className="text-light-grey">software development </span>
         and problem-solving. I&apos;m especially passionate about
-        <span className="text-lightGrey"> web development </span>
+        <span className="text-light-grey"> web development </span>
         and always eager to explore new technologies.
       </p>
 
