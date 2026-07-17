@@ -1,24 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Ubuntu_Sans_Mono } from "next/font/google";
+import { DM_Mono, Instrument_Serif, Manrope } from "next/font/google";
 
 import "./global.css"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const mono = DM_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
-const ubuntu = Ubuntu_Sans_Mono({
-  variable: "--font-ubuntu",
+const serif = Instrument_Serif({
+  variable: "--font-serif",
   subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -70,7 +71,7 @@ export default function RootLayout({
 
       </head>
       <body
-        className={` ${geistMono.variable} ${geistSans.variable} ${ubuntu.variable} font-ubuntu antialiased`}
+        className={`${manrope.variable} ${mono.variable} ${serif.variable} antialiased`}
       >
         {children}
       </body>
