@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Ubuntu_Sans_Mono } from "next/font/google";
 
 import "./global.css"
 
@@ -16,18 +15,12 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const ubuntu = Ubuntu_Sans_Mono({
-  variable: "--font-ubuntu",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "Sirasith's Portfolio | Web Development",
-  description: "Explore Sirasith's portfolio, showcasing projects in web development and programming expertise.",
+  title: "Sirasith Ruengsilapavilai",
+  description: "Application Developer at IBM, working in DevOps. CI/CD, containers, and observability.",
   openGraph: {
-    title: "Sirasith's Portfolio | Web Development",
-    description: "Explore Sirasith's portfolio, showcasing projects in web development and programming expertise.",
+    title: "Sirasith Ruengsilapavilai",
+    description: "Application Developer at IBM, working in DevOps. CI/CD, containers, and observability.",
     url: "https://sirasith.net/",
     images: [
       {
@@ -41,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sirasith's Portfolio | Web Development",
-    description: "Explore Sirasith's portfolio, showcasing projects in web development and programming expertise.",
+    title: "Sirasith Ruengsilapavilai",
+    description: "Application Developer at IBM, working in DevOps. CI/CD, containers, and observability.",
     images: ["https://sirasith.net/preview.jpg"]
   }
 };
@@ -64,13 +57,13 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
 
         <meta name="robots" content="index, follow" />
-        <meta name="description" content="Explore Sirasith's portfolio, showcasing projects in web development and programming expertise." />
+        <meta name="description" content="Application Developer at IBM, working in DevOps. CI/CD, containers, and observability." />
         <meta name="keywords" content="Sirasith, Portfolio, Web Development Programming" />
         <meta name="author" content="Sirasith" />
 
       </head>
       <body
-        className={` ${geistMono.variable} ${geistSans.variable} ${ubuntu.variable} font-ubuntu antialiased`}
+        className={` ${geistMono.variable} ${geistSans.variable} font-sans antialiased`}
       >
         {children}
       </body>

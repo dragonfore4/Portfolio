@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>Homelab Architecture</title>
+  <meta name="description" content="One Proxmox box, two traffic lanes, two floating IPs: how the homelab routes web and database traffic.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#fafafa; --fg:#121212; --muted:#666666; --line:#e5e5e5; --panel:#ffffff;
+      --node-web-fill:#dde9f4; --node-web-line:#0B5FB0;
+      --node-db-fill:#ebe4f9;  --node-db-line:#6D3FD6;
+      --node-vip-fill:#f1e8db; --node-vip-line:#9A5B00;
+      --band-web-fill:#f0f5fa; --band-web-line:#9dbfdf;
+      --band-db-fill:#f6f3fd;  --band-db-line:#c5b2ef;
+      --ext:#6f6f6f; --boundary:#C62828;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg:#121212; --fg:#d4d4d8; --muted:#8b8b92; --line:#262629; --panel:#1b1b1d;
+        --node-web-fill:#1c2933; --node-web-line:#5BB4FF;
+        --node-db-fill:#272332;  --node-db-line:#A78BFA;
+        --node-vip-fill:#322918; --node-vip-line:#F5B83D;
+        --band-web-fill:#161c20; --band-web-line:#2f5371;
+        --band-db-fill:#1b1920;  --band-db-line:#4e426f;
+        --ext:#8a8a8a; --boundary:#FF6B6B;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg:#121212; --fg:#d4d4d8; --muted:#8b8b92; --line:#262629; --panel:#1b1b1d;
+      --node-web-fill:#1c2933; --node-web-line:#5BB4FF;
+      --node-db-fill:#272332;  --node-db-line:#A78BFA;
+      --node-vip-fill:#322918; --node-vip-line:#F5B83D;
+      --band-web-fill:#161c20; --band-web-line:#2f5371;
+      --band-db-fill:#1b1920;  --band-db-line:#4e426f;
+      --ext:#8a8a8a; --boundary:#FF6B6B;
+    }
+
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { -webkit-text-size-adjust:100%; }
+    :root { color-scheme: light dark; }
+    :root[data-theme="light"] { color-scheme: light; }
+    :root[data-theme="dark"] { color-scheme: dark; }
+    body { min-height:100vh; background:var(--bg); color:var(--fg); font-family:"Geist", system-ui, sans-serif; font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+    ::selection { background:var(--fg); color:var(--bg); }
+    .mono { font-family:"Geist Mono", ui-monospace, monospace; }
+
+    main { max-width:1328px; margin:0 auto; padding:64px 24px 96px; }
+    @media (min-width:640px) { main { padding:120px 24px 128px; } }
+    .lede { max-width:690px; }
+
+    .top { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+    .eyebrow { font-size:12px; color:var(--muted); margin-bottom:12px; }
+    h1 { font-size:clamp(1.5rem,4vw,2rem); font-weight:500; line-height:1.2; letter-spacing:-.02em; text-wrap:balance; }
+    h1 span { color:var(--muted); }
+    .lede { margin-top:20px; color:var(--muted); text-wrap:pretty; }
+    .lede b { color:var(--fg); font-weight:500; }
+
+    .toggle { flex:none; display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:999px; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; transition:color .2s, border-color .2s; }
+    .toggle:hover { color:var(--fg); border-color:var(--fg); }
+    .toggle:focus-visible { outline:2px solid var(--fg); outline-offset:2px; }
+    .toggle svg { width:16px; height:16px; }
+    .toggle .sun { display:none; }
+    :root[data-theme="dark"] .toggle .sun { display:block; }
+    :root[data-theme="dark"] .toggle .moon { display:none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .toggle .sun { display:block; }
+      :root:not([data-theme="light"]) .toggle .moon { display:none; }
+    }
+
+    .diagram-wrap { margin-top:48px; }
+    .hint { display:none; font-size:12px; color:var(--muted); margin-bottom:8px; }
+    .diagram-container { width:100%; overflow-x:auto; overscroll-behavior-x:contain; border:1px solid var(--line); border-radius:12px; background:var(--bg); }
+    .diagram-container svg { width:100%; min-width:1100px; display:block; }
+    @media (max-width:1180px) { .hint { display:block; } }
+
+    /* diagram classes (same as the original diagram) */
+    .c-paper { fill:var(--bg); }
+    .n { stroke-width:1.5; }
+    .n-vip { fill:var(--node-vip-fill); stroke:var(--node-vip-line); }
+    .n-web { fill:var(--node-web-fill); stroke:var(--node-web-line); }
+    .n-db  { fill:var(--node-db-fill);  stroke:var(--node-db-line); }
+    .n-ext { fill:none; stroke:var(--ext); stroke-width:1.2; stroke-dasharray:2 3; }
+    .band { stroke-width:1; }
+    .band-web { fill:var(--band-web-fill); stroke:var(--band-web-line); }
+    .band-db  { fill:var(--band-db-fill);  stroke:var(--band-db-line); }
+    .frame { fill:none; stroke:var(--boundary); stroke-width:1.4; stroke-dasharray:9 6; }
+    .frame-sw { fill:none; stroke:var(--boundary); stroke-width:1.4; stroke-dasharray:3 2; }
+    .note-card { fill:var(--panel); stroke:var(--line); stroke-width:1; }
+    .t-ink { fill:var(--fg); } .t-mut { fill:var(--muted); }
+    .ar { fill:none; stroke:var(--muted); stroke-width:1.2; marker-end:url(#homelab-arrow); }
+    .ar.main { stroke:var(--fg); stroke-width:1.8; marker-end:url(#homelab-arrow-main); }
+    .ar.dash { stroke-width:1; stroke-dasharray:4 3; }
+    .m-mut { fill:var(--muted); } .m-ink { fill:var(--fg); }
+    .legend-rule { stroke:var(--line); stroke-width:1; }
+
+    @keyframes reveal { from { opacity:0; transform:translateY(8px); filter:blur(4px); } to { opacity:1; transform:none; filter:none; } }
+    .reveal { animation:reveal .7s cubic-bezier(.16,1,.3,1) both; animation-delay:calc(var(--i,0)*120ms); }
+    @media (prefers-reduced-motion: reduce) { .reveal { animation:none; } .toggle { transition:none; } }
+    @media print { .toggle, .hint { display:none; } .diagram-container { overflow:visible; border:0; } .diagram-container svg { min-width:0; } }
+  </style>
+  <script>
+    try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <main>
+    <header class="reveal" style="--i:0">
+      <div class="top">
+        <div>
+          <p class="eyebrow mono">Homelab · architecture · 2026-10-19</p>
+          <h1>One box, two lanes, <span>two floating IPs.</span></h1>
+        </div>
+        <button class="toggle" type="button" aria-label="Toggle light and dark theme">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+      </div>
+      <p class="lede">
+        Web traffic enters at <b class="mono">192.168.1.200</b> and is carried by MetalLB and Traefik into Kubernetes.
+        Database traffic enters at <b class="mono">192.168.1.150</b> and is carried by keepalived and HAProxy to the Patroni leader.
+        Kubernetes apps that need a database use the same floating IP, <b class="mono">.150</b>.
+        Each address floats between VMs, but all of them run on one GMKtec host.
+      </p>
+    </header>
+
+    <div class="diagram-wrap reveal" style="--i:1">
+      <p class="hint mono">Scroll sideways to see the full diagram →</p>
+      <div class="diagram-container">
+      <svg viewBox="0 0 1280 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="homelab-architecture-title homelab-architecture-desc">
+      <title id="homelab-architecture-title">Homelab architecture</title>
+      <desc id="homelab-architecture-desc">Architecture diagram of one Proxmox host with a web lane (Traefik and a three-node Kubernetes cluster behind floating IP .200) and a database lane (HAProxy and a three-node Patroni PostgreSQL cluster behind floating IP .150), where Kubernetes apps also connect to the database through floating IP .150, with Cloudflare DNS, GitHub and an NFS server around it.</desc>
+      <defs>
+      <marker id="homelab-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" class="m-mut"/></marker>
+      <marker id="homelab-arrow-main" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" class="m-ink"/></marker>
+      </defs>
+      <rect width="100%" height="100%" class="c-paper"/>
+      <rect x="330" y="170" width="926" height="498" class="frame"/>
+      <text x="350" y="198" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">pve 192.168.1.100 · Proxmox VE 9 · 24.5 of 30 GiB</text>
+      <text x="350" y="216" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">Tailscale subnet router · pg-1/2/3 built by Terraform</text>
+      <rect x="350" y="236" width="886" height="184" rx="8" class="band band-web"/>
+      <text x="1216" y="264" text-anchor="end" class="t-ink" font-size="12" font-weight="600" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.1em">WEB TRAFFIC · FLOATING IP 192.168.1.200</text>
+      <rect x="350" y="452" width="886" height="184" rx="8" class="band band-db"/>
+      <text x="1216" y="480" text-anchor="end" class="t-ink" font-size="12" font-weight="600" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.1em">DATABASE TRAFFIC · FLOATING IP 192.168.1.150</text>
+      <line x1="124" y1="404" x2="124" y2="144" class="ar dash"/>
+      <line x1="805" y1="292" x2="805" y2="144" class="ar dash"/>
+      <path d="M 224,430 H 242 Q 250,430 250,422 V 352 Q 250,344 258,344 H 374" class="ar main"/>
+      <path d="M 224,482 H 242 Q 250,482 250,490 V 552 Q 250,560 258,560 H 374" class="ar main"/>
+      <line x1="598" y1="344" x2="678" y2="344" class="ar"/>
+      <line x1="932" y1="344" x2="996" y2="344" class="ar"/>
+      <line x1="598" y1="560" x2="678" y2="560" class="ar"/>
+      <path d="M 700,396 V 428 Q 700,436 692,436 H 528 Q 520,436 520,444 V 508" class="ar"/>
+      <rect x="134" y="262" width="36" height="14" rx="2" class="c-paper"/>
+      <text x="152" y="273" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">DNS</text>
+      <rect x="820" y="190" width="60" height="14" rx="2" class="c-paper"/>
+      <text x="850" y="201" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">GITOPS</text>
+      <rect x="268" y="326" width="52" height="14" rx="2" class="c-paper"/>
+      <text x="294" y="337" class="t-ink" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">HTTPS</text>
+      <rect x="274" y="542" width="40" height="14" rx="2" class="c-paper"/>
+      <text x="294" y="553" class="t-ink" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SQL</text>
+      <rect x="568" y="414" width="84" height="14" rx="2" class="c-paper"/>
+      <text x="610" y="425" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">APPS → DB</text>
+      <rect x="610" y="326" width="56" height="14" rx="2" class="c-paper"/>
+      <text x="638" y="337" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">POD IP</text>
+      <rect x="944" y="326" width="40" height="14" rx="2" class="c-paper"/>
+      <text x="964" y="337" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">NFS</text>
+      <rect x="608" y="542" width="60" height="14" rx="2" class="c-paper"/>
+      <text x="638" y="553" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">LEADER</text>
+      <rect x="24" y="40" width="240" height="104" rx="6" class="c-paper"/>
+      <rect x="24" y="40" width="240" height="104" rx="6" class="n n-ext"/>
+      <text x="144" y="80" class="t-ink" font-size="16" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Cloudflare DNS</text>
+      <text x="144" y="104" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">*.home.sirasith.net → .200</text>
+      <text x="144" y="124" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">proxy OFF</text>
+      <rect x="685" y="40" width="240" height="104" rx="6" class="c-paper"/>
+      <rect x="685" y="40" width="240" height="104" rx="6" class="n n-ext"/>
+      <text x="805" y="80" class="t-ink" font-size="16" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">GitHub</text>
+      <text x="805" y="104" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">app manifests · Terraform</text>
+      <text x="805" y="124" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Argo CD pulls</text>
+      <rect x="24" y="404" width="200" height="104" rx="6" class="c-paper"/>
+      <rect x="24" y="404" width="200" height="104" rx="6" class="n n-ext"/>
+      <text x="124" y="444" class="t-ink" font-size="16" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Clients</text>
+      <text x="124" y="468" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Mac · phone</text>
+      <text x="124" y="488" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">browser · DBeaver</text>
+      <rect x="374" y="292" width="224" height="104" rx="6" class="c-paper"/>
+      <rect x="374" y="292" width="224" height="104" rx="6" class="n n-vip"/>
+      <text x="486" y="332" class="t-ink" font-size="16" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Traefik</text>
+      <text x="486" y="356" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">VIP .200 · MetalLB L2</text>
+      <text x="486" y="376" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">HTTPS :443 · TLS</text>
+      <rect x="678" y="292" width="254" height="104" rx="6" class="c-paper"/>
+      <rect x="678" y="292" width="254" height="104" rx="6" class="n n-web"/>
+      <text x="805" y="332" class="t-ink" font-size="16" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">Kubernetes cluster</text>
+      <text x="805" y="356" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">cp-1 · worker-1 · worker-2</text>
+      <text x="805" y="376" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Calico · Longhorn · Argo CD</text>
+      <rect x="996" y="292" width="224" height="104" rx="6" class="c-paper"/>
+      <rect x="996" y="292" width="224" height="104" rx="6" class="n n-web"/>
+      <text x="1108" y="332" class="t-ink" font-size="16" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">nas</text>
+      <text x="1108" y="356" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">192.168.1.104 · NFS</text>
+      <text x="1108" y="376" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">/srv/nfs → 192.168.1.0/24</text>
+      <rect x="374" y="508" width="224" height="104" rx="6" class="c-paper"/>
+      <rect x="374" y="508" width="224" height="104" rx="6" class="n n-vip"/>
+      <text x="486" y="548" class="t-ink" font-size="16" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">HAProxy + keepalived</text>
+      <text x="486" y="572" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">VIP .150 · :5000</text>
+      <text x="486" y="592" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">on all three pg nodes</text>
+      <rect x="678" y="508" width="280" height="104" rx="6" class="c-paper"/>
+      <rect x="678" y="508" width="280" height="104" rx="6" class="n n-db"/>
+      <text x="818" y="548" class="t-ink" font-size="16" font-weight="600" font-family="'Geist', system-ui, sans-serif" text-anchor="middle">PostgreSQL HA (pg-ha)</text>
+      <text x="818" y="572" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">pg-1 · pg-2 · pg-3 · .151–.153</text>
+      <text x="818" y="592" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">Patroni · etcd · PostgreSQL 18</text>
+      <rect x="976" y="512" width="252" height="100" rx="6" class="note-card"/>
+      <text x="992" y="540" class="t-ink" font-size="14" font-weight="500" font-family="'Geist', system-ui, sans-serif">Leader lock lives in etcd.</text>
+      <text x="992" y="562" class="t-ink" font-size="14" font-weight="500" font-family="'Geist', system-ui, sans-serif">HAProxy asks every node</text>
+      <text x="992" y="584" class="t-ink" font-size="14" font-weight="500" font-family="'Geist', system-ui, sans-serif">on :8008 who is primary.</text>
+      <line x1="24" y1="700" x2="1256" y2="700" class="legend-rule"/>
+      <text x="24" y="732" class="t-mut" font-size="12" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.12em">LEGEND</text>
+      <rect x="110" y="721" width="12" height="12" rx="2" class="n n-vip"/>
+      <text x="130" y="732" class="t-ink" font-size="12" font-family="'Geist', system-ui, sans-serif">Floating IP</text>
+      <rect x="250" y="721" width="12" height="12" rx="2" class="n n-web"/>
+      <text x="270" y="732" class="t-ink" font-size="12" font-family="'Geist', system-ui, sans-serif">Kubernetes / web</text>
+      <rect x="420" y="721" width="12" height="12" rx="2" class="n n-db"/>
+      <text x="440" y="732" class="t-ink" font-size="12" font-family="'Geist', system-ui, sans-serif">Database</text>
+      <rect x="530" y="721" width="12" height="12" rx="2" class="n n-ext"/>
+      <text x="550" y="732" class="t-ink" font-size="12" font-family="'Geist', system-ui, sans-serif">External</text>
+      <rect x="640" y="721" width="12" height="12" class="frame-sw"/>
+      <text x="660" y="732" class="t-ink" font-size="12" font-family="'Geist', system-ui, sans-serif">Failure boundary</text>
+      <line x1="810" y1="727" x2="830" y2="727" class="ar dash"/>
+      <text x="840" y="732" class="t-ink" font-size="12" font-family="'Geist', system-ui, sans-serif">Lookup / sync</text>
+      </svg>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.querySelector(".toggle").addEventListener("click", function () {
+      var root = document.documentElement;
+      var current = root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      var next = current === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+
+    // Over the diagram, turn a vertical wheel into a sideways scroll.
+    // At either edge, or when there is nothing to scroll, the page scrolls as usual.
+    (function () {
+      var box = document.querySelector(".diagram-container");
+      box.addEventListener("wheel", function (e) {
+        if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        var max = box.scrollWidth - box.clientWidth;
+        if (max <= 0) return;
+        var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+        if ((dy < 0 && box.scrollLeft <= 0) || (dy > 0 && box.scrollLeft >= max - 1)) return;
+        e.preventDefault();
+        box.scrollLeft += dy;
+      }, { passive: false });
+    })();
+  </script>
+</body>
+</html>

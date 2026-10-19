@@ -1,51 +1,67 @@
 @import "tailwindcss";
 
-/* ย้ายค่าจาก tailwind.config.ts มาไว้ที่นี่ */
-@theme {
-  --color-light-grey: #D9D9D9;
-  --color-medium-grey: #a1a1a1;
-  --color-dark-charcoal: #161616;
-  --color-gunmetal-gray: #383838;
-  
-  
-  --font-ubuntu: var(--font-ubuntu);
-
-  /* Grid Template */
-  --grid-template-columns-auto-fit: repeat(auto-fit, minmax(100px, 1fr));
-  --grid-template-columns-auto-fill: repeat(auto-fill, minmax(100px, 1fr));
+:root {
+  --bg: #fafafa;
+  /* --fg: #171717; */
+  --fg: #121212;
+  --muted: #666666;
+  --line: #e5e5e5;
 }
 
-/* การใช้งาน @layer ใน v4 */
-@layer base {
-  html {
-    @apply text-white;
-    scroll-behavior: smooth;
-    background-color: black; /* หรือสีพื้นหลังของคุณ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --fg: #d4d4d8;
+    --muted: #8b8b92;
+    --line: #262629;
   }
 }
 
-@layer components {
-  .text-gradient {
-    background: linear-gradient(to right, #FFC0CB, #9370DB);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.25;
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light dark;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--fg);
+  background-color: var(--bg);
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }
 
-/* Custom Scrollbar (เหมือนเดิม) */
-::-webkit-scrollbar {
-    width: 10px;
+.reveal {
+  animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 120ms);
 }
-::-webkit-scrollbar-track {
-    background: #1a1a1a;
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
 }
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(211deg, #FFC0CB, #9370DB);
-    border-radius: 5px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(211deg, #FFC0CB, #9370DB);
-    filter: brightness(1.2);
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
 }
